@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-header">
+    <h1>Edit Alert</h1>
+</div>
+<div class="form-size">
+    <form method="post">
+        <!--<action='/new' is not needed as it on the original page i.e. /new>-->
+        <div class="form-group">
+            <label for="name">Alert/Item Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="{{ alert.item.name }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" class="form-control" id="url" name="url" placeholder="{{ alert.item.url }}" disabled>
+        </div>
+        <div class="form-group">
+            <label for="price_limit">Item Price limit</label>
+            <input type="text" class="form-control" id="price_limit" name="price_limit" value="{{ alert.price_limit }}" placeholder="Enter price amount like 45.0" aria-describedby="priceLimitBlock">
+            <p id="priceLimitBlock" class="help-block">We will send Email when the Item's price goes below alert limit!</p>
+        </div>
+        <button class="btn btn-warning" type="submit">Edit Alert</button>
+    </form>
+</div>
+
+{% endblock %}

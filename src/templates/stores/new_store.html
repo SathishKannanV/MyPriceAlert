@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="page-header">
+        <h1> Create Store <small>Add new store here </small></small></h1>
+    </div>
+    <div class="form-size">
+        <form method="post"> <!-- no action specified then it will default to the page calling them -->
+            <div class="form-group">
+                <label for="name">Store Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Store Name">
+            </div>
+            <div class="form-group">
+                <label for="url_prefix">Store URL Prefix</label>
+                <input type="text" class="form-control" id="url_prefix" name="url_prefix" placeholder="URL Prefix like https://www.amazon.com" aria-describedby="StoreURLPrefixHelp">
+                <span id="StoreURLPrefixHelp" class="help-block">What characters do URLs of all items in this store starts with?</span>
+            </div>
+            <div class="form-group">
+                <label for="tag_name">Tag Name</label>
+                <input type="text" class="form-control" id="tag_name" name="tag_name" value="span" placeholder="span" aria-describedby="storeTagNameHelp">
+                <span id="storeTagNameHelp" class="help-block"> What is the html tag of the item that contains price? (usually <code>span</code>)</span>
+            </div>
+            <div class="form-group">
+                <label for="query">Search query</label>
+                <input type="text" class="form-control" id="query" name="query" value='{ "id": "price-now" }' placeholder='{ "id": "price-now" }' aria-describedby="searchQueryHelp">
+                <span id="searchQueryHelp" class="help-block"> What JSON query would we have to do to find specific tag with item price? Note: Use double quotation and curly braces are indicated.</span>
+            </div>
+            <button type="submit" class="btn btn-success">Create Store</button>
+        </form>
+    </div>
+
+{% endblock %}

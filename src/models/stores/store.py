@@ -1,0 +1,66 @@
+import uuid
+
+from src.common.database import Database
+import src.models.stores.constants as StoreConstants
+import src.models.stores.errors as StoreErrors
+
+
+class Store(object):
+    def __init__(self, name, url_prefix, tag_name, query, _id=None):
+        self.name = name
+        self.url_prefix = url_prefix
+        self.tag_name = tag_name
+        self.query = query
+        self._id = uuid.uuid4().hex if _id is None else _id
+
+    def __repr__(self):
+        return "<Store {}>".format(self.name)
+
+    def save_to_mongo(self):
+        Database.update(StoreConstants.COLLECTION, {"_id": self._id}, self.json())
+
+    def json(self):
+        return {
+            "_id": self._id,
+            "name": self.name,
+            "url_prefix": self.url_prefix,
+            "tag_name": self.tag_name,
+            "query": self.query
+        }
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls(**Database.find_one(StoreConstants.COLLECTION, {"_id": id}))
+
+    @classmethod
+    def get_by_name(cls, store_name):
+        return cls(**Database.find_one(StoreConstants.COLLECTION, {"name": store_name}))
+
+    @classmethod
+    def get_by_url_prefix(cls, url_prefix):
+        return cls(**Database.find_one(StoreConstants.COLLECTION, {"url_prefix": {"$regex": '^{}'.format(url_prefix)}}))
+
+    @classmethod
+    def get_by_url(cls, url):
+        """
+        Return a store from a URL
+        :param url: Item's URL
+        :return: return store or raise exception
+        """
+
+        for i in range(0, len(url)+1):      # len(url)+1 only allows complete string
+            try:
+                store = cls.get_by_url_prefix(url[:i])
+                return store
+            except:
+                raise StoreErrors.StoreNotFoundException("The URL doesnt match any store on the Database")
+
+
+
+    @classmethod
+    def all(cls):
+        return [cls(**store) for store in Database.find(StoreConstants.COLLECTION, {})]
+
+
+    def delete(self):
+        return Database.remove(StoreConstants.COLLECTION, {"_id": self._id})

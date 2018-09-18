@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>Create New Alert</h1>
+</div>
+<div class="form-size">
+    <form method="post">
+        <!--<action='/new' is not needed as it on the original page i.e. /new>-->
+        <div class="form-group">
+            <label for="name">Alert/Item Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Item name for Alert">
+        </div>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" class="form-control" id="url" name="url" placeholder="Enter Item URL">
+        </div>
+        <div class="form-group">
+            <label for="price_limit">Item Price limit</label>
+            <input type="text" class="form-control" id="price_limit" name="price_limit" placeholder="Enter Item price limit for Alert" aria-describedby="priceLimitBlock">
+            <p id="priceLimitBlock" class="help-block">We will send Email when the Item's price goes below alert limit!</p>
+        </div>
+        <button class="btn btn-success" type="submit">Create Alert</button>
+    </form>
+</div>
+{% endblock %}
