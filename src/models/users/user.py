@@ -43,14 +43,14 @@ class User(object):
         :return: True if successful, False otherwise. Exception also can be raised.
         """
 
-        #user_data = Database.find_one(UserConstants.COLLECTION, {"email": email})
+        user_data = Database.find_one(UserConstants.COLLECTION, {"email": email})
 
-        #if user_data is not None:
+        if user_data is not None:
             # Tell user that email id is already taken.
-        #    raise UserErrors.UserAlreadyRegisteredError("The e-mail id used to register already exists")
-        #if not Utils.email_is_valid:
+            raise UserErrors.UserAlreadyRegisteredError("The e-mail id used to register already exists")
+        if not Utils.email_is_valid:
             # Tell user that email is not constructed properly
-        #    raise UserErrors.UserEmailInvalidError("The e-mail id submitted is not valid email")
+            raise UserErrors.UserEmailInvalidError("The e-mail id submitted is not valid email")
 
         User(email, Utils.hash_password(password)).save_to_mongo()
 
