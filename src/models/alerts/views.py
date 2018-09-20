@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, session, url_for, redirec
 from src.models.alerts.alert import Alert
 from src.models.items.item import Item
 import src.models.users.decorators as user_decorator
+import src.models.stores.errors as StoreErrors
 
 alert_blueprint = Blueprint('alerts', __name__)
 
@@ -18,9 +19,14 @@ def create_alert():
         item_url = request.form['url']
         price_limit = float(request.form['price_limit'])
 
-        item = Item(item_name, item_url)
+        # item = Item(item_name, item_url)
         # item.load_price()
-        item.save_to_mongo()
+        # item.save_to_mongo()
+        try:
+            item = Item(item_name, item_url)
+            item.save_to_mongo()
+        except StoreErrors.StoreError as e:
+            return e.message
 
         alert = Alert(session['email'], price_limit, item._id)
         alert.load_item_price() # This already saves to mongoDB
