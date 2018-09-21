@@ -50,7 +50,8 @@ class Store(object):
 
         for i in range(0, len(url)+1):      # len(url)+1 only allows complete string
             try:
-                store = cls.get_by_url_prefix(url[:i])
+                j = len(url)-i
+                store = cls.get_by_url_prefix(url[:j])
                 return store
             except:
                 raise StoreErrors.StoreNotFoundException("The URL doesnt match any store on the Database")
